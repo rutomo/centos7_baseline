@@ -1,6 +1,6 @@
 #
 # Cookbook:: centos7-baseline
-# Recipe:: default
+# Recipe:: filesystem
 #
 # Copyright:: 2018,  Rinaldi Utomo
 #
@@ -16,14 +16,19 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-execute 'yum_update_upgrade' do
-    command 'sudo yum update -y && sudo yum upgrade -y'
-    action :run
-    only_if { node[:platform_family].include?("rhel") }
+execute "create_modprobd+folder" do
+    command "sudo mkdir -p /etc/modprobe.d/"                
 end
-execute 'apt_update_upgrade' do
-    command 'sudo apt-get update && sudo apt-get upgrade -y'
-    action :run
-    only_if { node[:platform_family].include?("ubuntu") }
+execute "remove_config" do
+    command "sudo rm -f /etc/modprobe.d/dev-sec.conf"                
+end
+
+node['filesystems'].each do |filesystem|
+    execute "create_cis_conf_add_#{filesystem}" do
+        command "rmmod #{filesystem}"                       
+        only_if "lsmod | grep #{filesystem}"
+    end    
+    execute "create_cis_conf_add_#{filesystem}" do
+        command "sudo echo 'install #{filesystem} /bin/true' >> /etc/modprobe.d/dev-sec.conf"
+    end    
 end

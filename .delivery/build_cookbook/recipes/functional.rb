@@ -1,6 +1,6 @@
 #
-# Cookbook:: centos7-baseline
-# Recipe:: default
+# Cookbook:: build_cookbook
+# Recipe:: functional
 #
 # Copyright:: 2018,  Rinaldi Utomo
 #
@@ -16,14 +16,4 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-execute 'yum_update_upgrade' do
-    command 'sudo yum update -y && sudo yum upgrade -y'
-    action :run
-    only_if { node[:platform_family].include?("rhel") }
-end
-execute 'apt_update_upgrade' do
-    command 'sudo apt-get update && sudo apt-get upgrade -y'
-    action :run
-    only_if { node[:platform_family].include?("ubuntu") }
-end
+include_recipe 'delivery-truck::functional'
