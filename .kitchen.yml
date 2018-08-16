@@ -25,10 +25,10 @@ platforms:
             image: centos:7
             platform: centos
             run_command: /usr/sbin/init
-    -   name: ubuntu-18.04
-        driver_config:
-            image: ubuntu:18.04
-            platform: ubuntu            
+    #-   name: ubuntu-18.04
+        #driver_config:
+            #image: ubuntu:18.04
+            #platform: ubuntu            
 
 suites:
     -   name: default
@@ -36,6 +36,7 @@ suites:
             - recipe[centos7-baseline::default]
             - recipe[centos7-baseline::filesystem]
             - recipe[centos7-baseline::passwords]
+            - recipe[centos7-baseline::packages]
         verifier:
             inspec_tests:
                 #- supermarket://dev-sec/linux-baseline
