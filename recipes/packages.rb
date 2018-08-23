@@ -25,3 +25,11 @@ node['packages_to_install'].each do |package_name,service_name|
         action :start        
     end    
 end
+bash 'update_auditd_configs' do
+    code <<-EOH
+    sed -i 's/^log_file.*/log_file = /var/log/audit/audit.log/pI' /etc/audit/auditd.conf
+    sed -i 's/^log_format.*/log_format = raw/pI' /etc/audit/auditd.conf
+    sed -i 's/^flush.*/flush = INCREMENTAL_ASYNC/pI' /etc/audit/auditd.conf
+    sed -i 's/^max_log_file_action.*/max_log_file_action = keep_logs/pI' /etc/audit/auditd.conf
+    EOH
+end

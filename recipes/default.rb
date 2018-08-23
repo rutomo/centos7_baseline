@@ -22,8 +22,3 @@ execute 'yum_update_upgrade' do
     action :run
     only_if { node[:platform_family].include?("rhel") }
 end
-execute 'apt_update_upgrade' do
-    command 'sudo apt-get update && sudo apt-get upgrade -y'
-    action :run
-    only_if { node[:platform_family].include?("ubuntu") }
-end

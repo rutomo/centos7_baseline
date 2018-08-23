@@ -1,9 +1,10 @@
 ---
 driver:
-    name: docker
-    use_sudo: false
-    privileged: true
-    provision_command: mkdir -p /run/sshd
+    name: vagrant
+    #name: docker
+    #use_sudo: false
+    #privileged: true
+    #provision_command: mkdir -p /run/sshd
 
 
 provisioner:
@@ -19,12 +20,13 @@ verifier:
     #output: ./%{platform}_%{suite}_inspec.json
     
 
-platforms:  
-    -   name: centos-7
-        driver_config:
-            image: centos:7
-            platform: centos
-            run_command: /usr/sbin/init
+platforms:
+    - name: centos-7  
+    #-   name: centos-7
+        #driver_config:
+            #image: centos:7
+            #platform: centos
+            #run_command: /usr/sbin/init
     #-   name: ubuntu-18.04
         #driver_config:
             #image: ubuntu:18.04
@@ -37,14 +39,15 @@ suites:
             - recipe[centos7-baseline::filesystem]
             - recipe[centos7-baseline::passwords]
             - recipe[centos7-baseline::packages]
+            - recipe[centos7-baseline::kernel]
         verifier:
             inspec_tests:
                 #- supermarket://dev-sec/linux-baseline
                 #- supermarket://dev-sec/cis-linux-benchmark
                 -   name: linux-baseline
                     url: https://github.com/dev-sec/linux-baseline
-                #-   name: os-hardening
-                #    git: https://github.com/dev-sec/tests-os-hardening.git
+                -   name: os-hardening
+                    git: https://github.com/dev-sec/tests-os-hardening.git
             #controls:
                 #- os-05
                 #- os-10                                
