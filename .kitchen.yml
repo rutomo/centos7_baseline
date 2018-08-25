@@ -21,16 +21,7 @@ verifier:
     
 
 platforms:
-    - name: centos-7  
-    #-   name: centos-7
-        #driver_config:
-            #image: centos:7
-            #platform: centos
-            #run_command: /usr/sbin/init
-    #-   name: ubuntu-18.04
-        #driver_config:
-            #image: ubuntu:18.04
-            #platform: ubuntu            
+    - name: centos-7      
 
 suites:
     -   name: default
@@ -42,14 +33,10 @@ suites:
             - recipe[centos7-baseline::kernel]
         verifier:
             inspec_tests:
-                #- supermarket://dev-sec/linux-baseline
-                #- supermarket://dev-sec/cis-linux-benchmark
                 -   name: linux-baseline
                     url: https://github.com/dev-sec/linux-baseline
-                -   name: os-hardening
-                    git: https://github.com/dev-sec/tests-os-hardening.git
-            #controls:
-                #- os-05
-                #- os-10                                
-            #reporter: yaml:./test/output/cis-linux-benchmark.yml
+                -   name: linux-patch-benchmark
+                    git: https://github.com/dev-sec/linux-patch-baseline
+                -   name: cis-dil-benchmark
+                    git: https://github.com/dev-sec/cis-dil-benchmark                    
         attributes:
